@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS cars (
 );
 
 INSERT INTO cars (brand, color, year, price, status, image_url) VALUES 
-('Toyota', 'Red', 2021, 550000, 'ว่าง', 'https://images.unsplash.com/photo-1590362891991-f7614d02b8d0?auto=format&fit=crop&w=400&q=80'),
-('Honda', 'Black', 2020, 480000, 'ขายแล้ว', 'https://images.unsplash.com/photo-1592837330830-7463f2824b2b?auto=format&fit=crop&w=400&q=80'),
-('Ford', 'Blue', 2019, 620000, 'กำลังซ่อม', 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&q=80')
+('Toyota', 'Red', 2021, 550000, 'ว่าง', 'https://cf.autodeft2.pw/uploads/images/Toyota%20Vios%202017.png'),
+('Honda', 'Black', 2020, 480000, 'ขายแล้ว', 'https://cf.autodeft2.pw/uploads/images/2019/Press%20Event/Honda/Honda%20Accord/All-new%20Honda%20Accord_HYBRID.jpg'),
+('Ford', 'Blue', 2019, 620000, 'กำลังซ่อม', 'https://www.autoinfo.co.th/uploads/2018/02/Ford-Ranger-Raptor_03-1024x732.jpg')
 ON CONFLICT DO NOTHING;
