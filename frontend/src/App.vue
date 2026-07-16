@@ -5,20 +5,20 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <!-- Fake Logo -->
-          <div class="text-white font-bold text-3xl tracking-tighter italic flex items-center">
-            CARS<span class="text-white text-4xl">X</span>
+          <div class="text-black font-bold text-3xl tracking-tighter italic flex items-center">
+            CARS<span class="text-black text-4xl">X</span>
           </div>
         </div>
         
-        <div class="hidden md:flex space-x-6 text-white text-sm font-medium">
-          <a href="#" class="border-b-2 border-white pb-1">ค้นหารถมือสองทั้งหมด</a>
-          <a href="#" class="hover:text-white/80 transition-colors">แลกเปลี่ยน-ขายรถ</a>
-          <a href="#" class="hover:text-white/80 transition-colors">ตัวแทนขาย</a>
-          <a href="#" class="hover:text-white/80 transition-colors">ข่าวสารและบทความ</a>
-          <a href="#" class="hover:text-white/80 transition-colors">CARS X <span class="text-xs">▼</span></a>
+        <div class="hidden md:flex space-x-6 text-black text-sm font-medium">
+          <a href="#" class="border-b-2 border-black pb-1">ค้นหารถมือสองทั้งหมด</a>
+          <a href="#" class="hover:text-black/80 transition-colors">แลกเปลี่ยน-ขายรถ</a>
+          <a href="#" class="hover:text-black/80 transition-colors">ตัวแทนขาย</a>
+          <a href="#" class="hover:text-black/80 transition-colors">ข่าวสารและบทความ</a>
+          <a href="#" class="hover:text-black/80 transition-colors">CARS X <span class="text-xs">▼</span></a>
         </div>
         
-        <button @click="openAddModal" class="btn btn-sm bg-white text-carsxOrange hover:bg-gray-100 border-0 rounded-md shadow-sm">
+        <button @click="openAddModal" class="btn btn-sm bg-black text-carsxOrange hover:bg-gray-100 border-0 rounded-md shadow-sm">
           เพิ่มรถยนต์ (Demo)
         </button>
       </div>
@@ -46,7 +46,7 @@
           ค้นหาอย่างละเอียด
         </button>
         
-        <button @click="fetchCars" class="px-8 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-carsxOrange hover:bg-[#e0631c] w-full md:w-auto justify-center">
+        <button @click="fetchCars" class="px-8 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-black bg-carsxOrange hover:bg-[#e0631c] w-full md:w-auto justify-center">
           ค้นหา
         </button>
       </div>
