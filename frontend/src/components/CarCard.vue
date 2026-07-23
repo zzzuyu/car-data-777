@@ -31,7 +31,7 @@
     <div class="p-3.5 flex flex-col flex-grow">
       <!-- Title -->
       <h2 class="text-sm font-bold text-gray-800 leading-snug line-clamp-2 h-10 mb-1">
-        {{ car.year }} {{ car.brand }}
+        {{ car.year || 'ไม่ระบุปี' }} {{ car.brand || 'ไม่ระบุยี่ห้อ' }}
       </h2>
       
       <!-- Badges row -->

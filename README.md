@@ -56,3 +56,35 @@ docker compose down
 | `main` | โค้ดหลักที่พร้อมใช้งาน |
 | `backend-dev` | พัฒนาฝั่ง Backend |
 | `frontend-dev` | พัฒนาฝั่ง Frontend |
+
+## CI → Docker Hub (ตั้งค่า Secrets & ทดสอบ)
+เพิ่มคำอธิบายวิธีตั้งค่า GitHub Secrets และวิธีทดสอบ pipeline เพื่อ push Docker images ขึ้น Docker Hub
+
+1) Required GitHub Secrets
+	- `DOCKERHUB_USERNAME` — ชื่อผู้ใช้หรือชื่อองค์กรบน Docker Hub
+	- `DOCKERHUB_TOKEN` — Docker Hub access token (แนะนำใช้ token)
+
+	วิธีเพิ่ม: `Settings` → `Secrets and variables` → `Actions` → `New repository secret`
+
+2) วิธีทดสอบ CI บน GitHub
+	- Push หรือ merge โค้ดเข้า `main` → workflow จะรันอัตโนมัติ
+	- เข้าแท็บ `Actions` ใน repo เพื่อดู log ของแต่ละ job
+
+3) วิธีตรวจสอบว่า image ขึ้นที่ Docker Hub แล้ว
+	- เปิด: `https://hub.docker.com/r/<DOCKERHUB_USERNAME>/cars-backend` และ `.../cars-frontend`
+	- ตรวจดูหน้า `Tags` ว่ามี `latest` หรือ tag ที่เป็น commit SHA ปรากฏ
+
+4) ทดสอบ local (ไม่ต้องรอ CI)
+```bash
+# รันทดสอบ backend
+cd backend
+npm install
+npm test
+
+# สร้างและ push images ทดสอบ (ต้อง docker login ก่อน)
+docker build -t YOUR_DOCKERHUB_USER/cars-backend:local -f backend/Dockerfile ./backend
+docker push YOUR_DOCKERHUB_USER/cars-backend:local
+
+docker build -t YOUR_DOCKERHUB_USER/cars-frontend:local -f frontend/Dockerfile ./frontend
+docker push YOUR_DOCKERHUB_USER/cars-frontend:local
+```
