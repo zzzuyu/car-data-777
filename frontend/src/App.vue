@@ -17,10 +17,17 @@
           <a href="#" class="hover:text-black/80 transition-colors">CARS X <span class="text-xs">▼</span></a>
         </div>
         
-        <div class="flex items-center gap-2">
-          <div v-if="user" class="text-sm font-medium text-black">
-            สวัสดี, {{ user.name || user.email }}
+        <div class="flex items-center gap-3">
+          <div v-if="user" class="flex items-center gap-3 bg-white/70 rounded-full px-3 py-2 shadow-sm">
+            <img v-if="profileForm.avatar_url" :src="profileForm.avatar_url" alt="avatar" class="w-9 h-9 rounded-full object-cover border border-gray-200" />
+            <div class="flex flex-col text-right">
+              <span class="text-sm font-semibold text-black">{{ profileForm.display_name || user.name || user.email }}</span>
+              <span class="text-xs text-gray-600">สวัสดี</span>
+            </div>
           </div>
+          <button v-if="user" @click="openProfileModal" class="btn btn-sm bg-black text-carsxOrange hover:bg-gray-100 border-0 rounded-md shadow-sm">
+            โปรไฟล์
+          </button>
           <button v-if="user" @click="logout" class="btn btn-sm bg-black text-carsxOrange hover:bg-gray-100 border-0 rounded-md shadow-sm">
             Logout
           </button>
@@ -43,6 +50,33 @@
         <a href="#" class="hover:text-carsxOrange">หน้าแรก</a>
         <span>›</span>
         <span class="text-gray-800 font-medium">ค้นหารถมือสองทั้งหมด</span>
+      </div>
+
+      <div v-if="user" class="mb-6 rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <div>
+            <div class="text-sm text-gray-500">โปรไฟล์</div>
+            <div class="mt-2 text-xl font-semibold text-gray-900">{{ profileForm.display_name || user.name || user.email }}</div>
+            <div class="text-sm text-gray-600">{{ user.email }}</div>
+          </div>
+          <button @click="openProfileModal" class="btn btn-sm border-0 bg-black text-carsxOrange hover:bg-gray-100 rounded-md shadow-sm">
+            แก้ไขโปรไฟล์
+          </button>
+        </div>
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-600">
+          <div>
+            <div class="font-medium text-gray-900">เบอร์โทร</div>
+            <div>{{ profileForm.phone || 'ยังไม่ได้ตั้งค่า' }}</div>
+          </div>
+          <div>
+            <div class="font-medium text-gray-900">คำอธิบาย</div>
+            <div>{{ profileForm.bio || 'ยังไม่มีข้อมูล' }}</div>
+          </div>
+          <div>
+            <div class="font-medium text-gray-900">รูปโปรไฟล์</div>
+            <div>{{ profileForm.avatar_url || 'ยังไม่มีข้อมูล' }}</div>
+          </div>
+        </div>
       </div>
 
       <!-- Search Section -->
@@ -125,9 +159,9 @@
         </div>
         
         <div class="p-6 space-y-4">
-          <div class="form-control">
+          <div v-if="!isLoginMode" class="form-control">
             <label class="label py-1"><span class="label-text text-xs text-gray-500">ชื่อ</span></label>
-            <input v-if="!isLoginMode" type="text" v-model="authForm.name" class="input input-bordered input-sm bg-white border-gray-300 w-full" />
+            <input type="text" v-model="authForm.name" class="input input-bordered input-sm bg-white border-gray-300 w-full" />
           </div>
           <div class="form-control">
             <label class="label py-1"><span class="label-text text-xs text-gray-500">อีเมล</span></label>
@@ -150,6 +184,47 @@
       </div>
       <form method="dialog" class="modal-backdrop bg-black/50">
         <button @click="showAuthModal = false">close</button>
+      </form>
+    </dialog>
+
+    <!-- Profile Modal -->
+    <dialog id="profile_modal" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box bg-white rounded-xl p-0 overflow-hidden shadow-2xl">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+          <h3 class="font-bold text-lg text-gray-900">แก้ไขโปรไฟล์</h3>
+          <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost text-gray-500" @click="showProfileModal = false">✕</button>
+          </form>
+        </div>
+        <div class="p-6 space-y-4">
+          <div class="form-control">
+            <label class="label py-1"><span class="label-text text-xs text-gray-500">ชื่อที่แสดง</span></label>
+            <input type="text" v-model="profileForm.display_name" class="input input-bordered input-sm bg-white border-gray-300 w-full" />
+          </div>
+          <div class="form-control">
+            <label class="label py-1"><span class="label-text text-xs text-gray-500">URL รูปโปรไฟล์</span></label>
+            <input type="text" v-model="profileForm.avatar_url" class="input input-bordered input-sm bg-white border-gray-300 w-full" />
+          </div>
+          <div class="form-control">
+            <label class="label py-1"><span class="label-text text-xs text-gray-500">คำอธิบายตัวตน</span></label>
+            <textarea v-model="profileForm.bio" class="textarea textarea-bordered textarea-sm bg-white border-gray-300 w-full" rows="3"></textarea>
+          </div>
+          <div class="form-control">
+            <label class="label py-1"><span class="label-text text-xs text-gray-500">เบอร์โทร</span></label>
+            <input type="text" v-model="profileForm.phone" class="input input-bordered input-sm bg-white border-gray-300 w-full" />
+          </div>
+        </div>
+        <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-end gap-2">
+          <form method="dialog">
+            <button class="btn btn-sm btn-ghost text-gray-600" @click="closeProfileModal">ยกเลิก</button>
+          </form>
+          <button class="btn btn-sm border-0 bg-carsxOrange text-white hover:bg-[#e0631c] px-6" @click.prevent="saveProfile">
+            บันทึกโปรไฟล์
+          </button>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop bg-black/50">
+        <button @click="showProfileModal = false">close</button>
       </form>
     </dialog>
 
@@ -215,7 +290,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import api from './api';
 import CarCard from './components/CarCard.vue';
 import CarTable from './components/CarTable.vue';
@@ -226,8 +301,12 @@ const errorMessage = ref('');
 const viewMode = ref('card');
 const user = ref(null);
 const showAuthModal = ref(false);
+const showProfileModal = ref(false);
 const isLoginMode = ref(true);
 const authForm = ref({ name: '', email: '', password: '' });
+const profileForm = ref({ display_name: '', avatar_url: '', bio: '', phone: '' });
+const route = ref(window.location.pathname || '/');
+const isProfilePage = computed(() => route.value === '/profile');
 
 const filters = ref({
   brand: '',
@@ -309,6 +388,58 @@ const saveCar = async () => {
   }
 };
 
+const openProfileModal = async () => {
+  await loadProfile();
+  document.getElementById('profile_modal').showModal();
+};
+
+const closeProfileModal = () => {
+  document.getElementById('profile_modal').close();
+  showProfileModal.value = false;
+};
+
+const goToProfile = () => {
+  history.pushState({}, '', '/profile');
+  route.value = '/profile';
+};
+
+const goHome = () => {
+  history.pushState({}, '', '/');
+  route.value = '/';
+};
+
+const loadProfile = async () => {
+  if (!user.value) return;
+  try {
+    const response = await api.get('/profile');
+    profileForm.value = {
+      display_name: response.data.display_name || '',
+      avatar_url: response.data.avatar_url || '',
+      bio: response.data.bio || '',
+      phone: response.data.phone || ''
+    };
+  } catch (error) {
+    console.error('Error loading profile:', error);
+  }
+};
+
+const saveProfile = async () => {
+  try {
+    const response = await api.post('/profile', profileForm.value);
+    profileForm.value = {
+      display_name: response.data.display_name || '',
+      avatar_url: response.data.avatar_url || '',
+      bio: response.data.bio || '',
+      phone: response.data.phone || ''
+    };
+    document.getElementById('profile_modal').close();
+    alert('บันทึกโปรไฟล์เรียบร้อยแล้ว');
+  } catch (error) {
+    console.error('Error saving profile:', error);
+    alert('Failed to save profile');
+  }
+};
+
 const handleDelete = async (id) => {
   if (confirm('Are you sure you want to delete this car?')) {
     try {
@@ -330,6 +461,7 @@ const submitAuth = async () => {
     user.value = authUser;
     showAuthModal.value = false;
     authForm.value = { name: '', email: '', password: '' };
+    await loadProfile();
     fetchCars();
   } catch (error) {
     console.error('Auth error:', error);
@@ -340,6 +472,7 @@ const submitAuth = async () => {
 const logout = () => {
   localStorage.removeItem('token');
   user.value = null;
+  profileForm.value = { display_name: '', avatar_url: '', bio: '', phone: '' };
 };
 
 onMounted(async () => {
@@ -348,6 +481,7 @@ onMounted(async () => {
     try {
       const response = await api.get('/auth/me');
       user.value = response.data.user;
+      await loadProfile();
     } catch (error) {
       localStorage.removeItem('token');
     }

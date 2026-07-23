@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const carsRouter = require('./routes/cars');
+const mysqlDataRouter = require('./routes/mysqlData');
+const profileRouter = require('./routes/profile');
 const db = require('./db');
 const { createToken, verifyToken, hashPassword, comparePassword, requiresAuth } = require('./utils/auth');
 
@@ -77,11 +79,7 @@ app.get('/api/auth/me', (req, res) => {
   }
 });
 
-app.use('/api/cars', (req, res, next) => {
-  if (!requiresAuth(req.method)) {
-    return next();
-  }
-
+const requireAuth = (req, res, next) => {
   const authHeader = req.headers.authorization || '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
@@ -95,7 +93,18 @@ app.use('/api/cars', (req, res, next) => {
   } catch (err) {
     res.status(401).json({ error: 'Invalid token' });
   }
+};
+
+app.use('/api/cars', (req, res, next) => {
+  if (!requiresAuth(req.method)) {
+    return next();
+  }
+
+  requireAuth(req, res, next);
 }, carsRouter);
+
+app.use('/api/profile', requireAuth, profileRouter);
+app.use('/api/mysql', mysqlDataRouter);
 
 app.get('/', (req, res) => res.send('Car Record System API'));
 
