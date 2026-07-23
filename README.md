@@ -88,5 +88,3 @@ docker push YOUR_DOCKERHUB_USER/cars-backend:local
 docker build -t YOUR_DOCKERHUB_USER/cars-frontend:local -f frontend/Dockerfile ./frontend
 docker push YOUR_DOCKERHUB_USER/cars-frontend:local
 ```
-
-หากต้องการให้ผมเปลี่ยนชื่อ image ใน workflow ให้ตรงกับ Docker Hub ของทีม กรุณาส่งชื่อ Docker Hub มาได้เลย
